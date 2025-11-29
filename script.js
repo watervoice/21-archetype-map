@@ -593,5 +593,5 @@ document.getElementById("submitBtn").onclick = () => {
 
   // 結果ボックスを表示
   resultBox.style.display = "block";
-}; // ← onClick の正しい終わり
+}; 
 
