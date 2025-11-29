@@ -545,8 +545,3 @@ document.getElementById("copyURL").onclick = () => {
 
   resultBox.style.display = "block";
 };
-  <!-- JS -->
-  <script src="script.js"></script>
-
-</body>
-</html>
