@@ -511,6 +511,25 @@ document.getElementById("submitBtn").onclick = () => {
   const resultContent = document.getElementById("resultContent");
 
   resultContent.innerHTML = `
+  // ▼▼ SNS シェア用リンク生成 ▼▼
+const url = encodeURIComponent(location.href);
+const text = encodeURIComponent(`【診断結果】私の主要タイプは「${mainTypes.join(" / ")}」でした！`);
+
+document.getElementById("shareTwitter").href =
+  `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+
+document.getElementById("shareLINE").href =
+  `https://line.me/R/msg/text/?${text}%0A${url}`;
+
+document.getElementById("shareFB").href =
+  `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+
+// URLコピー
+document.getElementById("copyURL").onclick = () => {
+  navigator.clipboard.writeText(location.href);
+  alert("URLをコピーしました！");
+};
+
   <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
 
   <h2>${archetypeInfo[mainTypes[0]].title}</h2>
