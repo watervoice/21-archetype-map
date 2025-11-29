@@ -521,7 +521,65 @@ resultContent.innerHTML = `
   <h4>スコア詳細</h4>
   <pre>${JSON.stringify(scores, null, 2)}</pre>
 `;
- 
+ /* ▼ スコア詳細（正式名称 + 整数化 + 簡易棒グラフ） ▼ */
+
+// 型 → 名称のマップ
+const typeNames = {
+  N: "N（Narrative / 物語）",
+  E: "E（Emotion / 感情）",
+  S: "S（Structure / 構造）",
+  A: "A（Archetype / 深層）",
+  En: "En（Energy / エネルギー）",
+  O: "O（Outer / 外界）"
+};
+
+// 整数スコアを作成
+const intScores = {};
+Object.keys(scores).forEach(key => {
+  intScores[key] = Math.round(scores[key]);
+});
+
+// 最大値を取得（グラフ用）
+const maxScore = Math.max(...Object.values(intScores));
+
+// HTML生成
+let scoreHTML = `
+  <h4>スコア詳細</h4>
+  <div style="margin-top:10px;">
+`;
+
+Object.keys(intScores).forEach(key => {
+  const name = typeNames[key];
+  const val = intScores[key];
+
+  // 棒グラフ幅（%）
+  const barWidth = maxScore === 0 ? 0 : (val / maxScore) * 100;
+
+  scoreHTML += `
+    <div style="margin:6px 0;">
+      <strong>${name}</strong>：${val}
+      <div style="
+        height:12px;
+        background:#eee;
+        border-radius:6px;
+        margin-top:2px;
+      ">
+        <div style="
+          width:${barWidth}%;
+          height:100%;
+          background:#ff6b6b;
+          border-radius:6px;
+        "></div>
+      </div>
+    </div>
+  `;
+});
+
+scoreHTML += `</div>`;
+
+// ▼ resultContent の後ろに追加
+resultContent.innerHTML += scoreHTML;
+
 // ② SNS シェア用リンク生成
 const url = encodeURIComponent(location.href);
 const text = encodeURIComponent(`【診断結果】私の主要タイプは「${mainTypes.join(" / ")}」でした！`);
