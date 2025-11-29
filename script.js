@@ -510,87 +510,80 @@ document.getElementById("submitBtn").onclick = () => {
   const resultBox = document.getElementById("resultBox");
   const resultContent = document.getElementById("resultContent");
 
-  // ① 診断結果 HTML を先に描画
-resultContent.innerHTML = `
-  <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
-
-  <h2>${archetypeInfo[mainTypes[0]].title}</h2>
-  <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
-  <p>${archetypeInfo[mainTypes[0]].description}</p>
-
-`;
-/* ▼ スコア詳細（正式名称 + 整数化 + 簡易棒グラフ） ▼ */
-
-// 型 → 名称のマップ
-const typeNames = {
-  N: "N（Narrative / 物語）",
-  E: "E（Emotion / 感情）",
-  S: "S（Structure / 構造）",
-  A: "A（Archetype / 深層）",
-  En: "En（Energy / エネルギー）",
-  O: "O（Outer / 外界）"
-};
-
-// 整数スコアを作成
-const intScores = {};
-Object.keys(scores).forEach(key => {
-  intScores[key] = Math.round(scores[key]);
-});
-
-// 最大値を取得（グラフ用）
-const maxScore = Math.max(...Object.values(intScores));
-
-// HTML生成
-let scoreHTML = `
-  <h4>スコア詳細</h4>
-  <div style="margin-top:10px;">
-`;
-
-Object.keys(intScores).forEach(key => {
-  const name = typeNames[key];
-  const val = intScores[key];
-
-  // 棒グラフ幅（%）
-  const barWidth = maxScore === 0 ? 0 : (val / maxScore) * 100;
-
-  scoreHTML += `
-    <div style="margin:6px 0;">
-      <strong>${name}</strong>：${val}
-      <div style="
-        height:12px;
-        background:#eee;
-        border-radius:6px;
-        margin-top:2px;
-      ">
-        <div style="
-          width:${barWidth}%;
-          height:100%;
-          background:#ff6b6b;
-          border-radius:6px;
-        "></div>
-      </div>
-    </div>
+  // ① 診断結果 HTML を描画
+  resultContent.innerHTML = `
+    <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
+    <h2>${archetypeInfo[mainTypes[0]].title}</h2>
+    <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
+    <p>${archetypeInfo[mainTypes[0]].description}</p>
   `;
-});
 
-scoreHTML += `</div>`;
+  /* ▼ スコア詳細（名称 + 整数化 + 棒グラフ） ▼ */
 
-// ▼ resultContent の後ろに追加
-resultContent.innerHTML += scoreHTML;
+  const typeNames = {
+    N: "N（Narrative / 物語）",
+    E: "E（Emotion / 感情）",
+    S: "S（Structure / 構造）",
+    A: "A（Archetype / 深層）",
+    En: "En（Energy / エネルギー）",
+    O: "O（Outer / 外界）"
+  };
 
+  const intScores = {};
+  Object.keys(scores).forEach(key => {
+    intScores[key] = Math.round(scores[key]);
+  });
 
-// ② SNS シェア用リンク生成
-const url = encodeURIComponent(location.href);
-const text = encodeURIComponent(`【診断結果】私の主要タイプは「${mainTypes.join(" / ")}」でした！`);
+  const maxScore = Math.max(...Object.values(intScores));
 
-document.getElementById("shareTwitter").href =
-  `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+  let scoreHTML = `
+    <h4>スコア詳細</h4>
+    <div style="margin-top:10px;">
+  `;
 
-document.getElementById("shareLINE").href =
-  `https://line.me/R/msg/text/?${text}%0A${url}`;
+  Object.keys(intScores).forEach(key => {
+    const name = typeNames[key];
+    const val = intScores[key];
 
-document.getElementById("shareFB").href =
-  `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    const barWidth = maxScore === 0 ? 0 : (val / maxScore) * 100;
+
+    scoreHTML += `
+      <div style="margin:6px 0;">
+        <strong>${name}</strong>：${val}
+        <div style="
+          height:12px;
+          background:#eee;
+          border-radius:6px;
+          margin-top:2px;
+        ">
+          <div style="
+            width:${barWidth}%;
+            height:100%;
+            background:#ff6b6b;
+            border-radius:6px;
+          "></div>
+        </div>
+      </div>
+    `;
+  });
+
+  scoreHTML += `</div>`;
+
+  // 詳細スコアを追加
+  resultContent.innerHTML += scoreHTML;
+
+  // ② SNS シェアリンク生成
+  const url = encodeURIComponent(location.href);
+  const text = encodeURIComponent(`【診断結果】私の主要タイプは「${mainTypes.join(" / ")}」でした！`);
+
+  document.getElementById("shareTwitter").href =
+    `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+
+  document.getElementById("shareLINE").href =
+    `https://line.me/R/msg/text/?${text}%0A${url}`;
+
+  document.getElementById("shareFB").href =
+    `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 
   // URLコピー
   document.getElementById("copyURL").onclick = () => {
@@ -598,6 +591,7 @@ document.getElementById("shareFB").href =
     alert("URLをコピーしました！");
   };
 
-  // ▼ 結果ボックス表示
+  // 結果ボックスを表示
   resultBox.style.display = "block";
-};
+}; // ← onClick の正しい終わり
+
