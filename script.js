@@ -510,8 +510,19 @@ document.getElementById("submitBtn").onclick = () => {
   const resultBox = document.getElementById("resultBox");
   const resultContent = document.getElementById("resultContent");
 
-  resultContent.innerHTML = `
-  // ▼▼ SNS シェア用リンク生成 ▼▼
+  // ① 診断結果 HTML を先に描画
+resultContent.innerHTML = `
+  <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
+
+  <h2>${archetypeInfo[mainTypes[0]].title}</h2>
+  <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
+  <p>${archetypeInfo[mainTypes[0]].description}</p>
+
+  <h4>スコア詳細</h4>
+  <pre>${JSON.stringify(scores, null, 2)}</pre>
+`;
+ 
+// ② SNS シェア用リンク生成
 const url = encodeURIComponent(location.href);
 const text = encodeURIComponent(`【診断結果】私の主要タイプは「${mainTypes.join(" / ")}」でした！`);
 
@@ -530,15 +541,6 @@ document.getElementById("copyURL").onclick = () => {
   alert("URLをコピーしました！");
 };
 
-  <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
-
-  <h2>${archetypeInfo[mainTypes[0]].title}</h2>
-  <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
-  <p>${archetypeInfo[mainTypes[0]].description}</p>
-
-  <h4>スコア詳細</h4>
-  <pre>${JSON.stringify(scores, null, 2)}</pre>
-`;
 
 
   resultBox.style.display = "block";
