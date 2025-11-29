@@ -418,43 +418,42 @@ const questions = [
    WATER VOICE 完全オリジナル
 ============================================ */
 
+ /* -----------------------------------------
+   21タイプの診断結果データ
+----------------------------------------- */
 const archetypeInfo = {
   "E": {
-    title: "Empathy（共感／気持ち）",
-    subtitle: "感情の温度で伝える人",
-    description: "相手の心の動きを最初に掴み、言葉ではなく“温度”で伝わるタイプ。あなたの言葉は、理解されるより先に、感じ取られる強さがあります。"
+    title: "E（Emotion）｜温度で伝えるエモーショナル型",
+    subtitle: "共感と感情の動きが中心になる“伝わる言葉”",
+    description: "あなたは、心の温度を感じ取る力に優れています。文章でも会話でも“気持ちの動きを言語化する力”があり、読み手の感情を優しく動かす表現が得意。あなたの言葉には人を癒し、安心させる力があります。"
   },
-
   "N": {
-    title: "Narrative（物語／体験）",
-    subtitle: "ストーリーで伝える人",
-    description: "自分の経験・物語を通して深く伝わるタイプ。あなたの言葉は、相手の中に“自分ごと化”を生み、自然に行動を促します。"
+    title: "N（Narrative）｜物語で伝えるストーリー型",
+    subtitle: "経験・体験から生まれる“ストーリーで響く言葉”",
+    description: "あなたは、自分や他人の経験から意味を見出し、物語として伝えるのが得意です。ストーリーを通して相手の心に届く“説得力”を持ち、SNS発信でも強い個性になります。"
   },
-
   "S": {
-    title: "Structure（構造／論理）",
-    subtitle: "整理して伝える人",
-    description: "複雑なテーマも“正しい順番で整理する力”に優れたタイプ。あなたの言葉は、聞く人にクリアな道筋と理解の安心感を与えます。"
+    title: "S（Structure）｜構造で伝えるロジカル型",
+    subtitle: "情報を整理し、わかりやすく伝える“構造のプロ”",
+    description: "あなたは、複雑な情報を整理し「順序立てて説明する力」が高いタイプ。論理的でクリアな伝え方ができるため、ビジネスでも強い信頼をつくりやすい特徴があります。"
   },
-
   "A": {
-    title: "Archetype（意味／本質）",
-    subtitle: "本質から伝える人",
-    description: "表面ではなく“根っこ”を扱い、深い納得と変容を生むタイプ。あなたの言葉は、聞く人を本質へと導く力があります。"
+    title: "A（Archetype）｜意味で伝える深層型",
+    subtitle: "本質・概念・根源から言葉をつむぐ“哲学的タイプ”",
+    description: "あなたは“背景にある意味”を読み解く力に優れ、本質へまっすぐに触れる言葉を届けられる人。洞察が深く、聞く人に“気づき”を生み出す表現が強みです。"
   },
-
   "En": {
-    title: "Energy（勢い／波動）",
-    subtitle: "エネルギーで伝える人",
-    description: "勢い・波動・臨場感で相手を巻き込むタイプ。あなたが発する言葉は、その場の空気を変え、前に進む力を起こします。"
+    title: "En（Energy）｜勢いで伝えるエナジー型",
+    subtitle: "熱量・テンション・スピード感で動かす“ムードメーカー”",
+    description: "あなたの言葉は“動く力”を持っています。テンションと勢いで場を明るくし、読む人・聞く人の背中を押すことができるタイプです。自分の温度をそのまま表現すると強い魅力が発揮されます。"
   },
-
   "O": {
-    title: "Operation（行動／具体）",
-    subtitle: "行動ベースで伝える人",
-    description: "今すぐ実行できる“行動可能性”を提示できるタイプ。あなたの言葉は、迷っている人の背中を押し、現実を動かす力があります。"
+    title: "O（Operation）｜実行で伝えるオペレーション型",
+    subtitle: "具体性・行動・再現性で説得する“実務タイプ”",
+    description: "あなたは、抽象論よりも“どう行動すればいいか”を示すのが得意。手順や具体例がわかりやすく、聞いた人がすぐに実行できる“実用的な言葉”を届けられるタイプです。"
   }
 };
+
 
 /* ----------------------------
    質問レンダリング
@@ -512,11 +511,16 @@ document.getElementById("submitBtn").onclick = () => {
   const resultContent = document.getElementById("resultContent");
 
   resultContent.innerHTML = `
-    <h3>あなたの主要タイプ：<strong>${mainTypes.join(" & ")}</strong></h3>
-    <p>あなたの伝え方の源泉は、上記タイプの性質がもっとも強く現れています。</p>
-    <h4>スコア詳細</h4>
-    <pre>${JSON.stringify(scores, null, 2)}</pre>
-  `;
+  <h3>あなたの主要タイプ：<strong>${mainTypes.join(" / ")}</strong></h3>
+
+  <h2>${archetypeInfo[mainTypes[0]].title}</h2>
+  <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
+  <p>${archetypeInfo[mainTypes[0]].description}</p>
+
+  <h4>スコア詳細</h4>
+  <pre>${JSON.stringify(scores, null, 2)}</pre>
+`;
+
 
   resultBox.style.display = "block";
 };
