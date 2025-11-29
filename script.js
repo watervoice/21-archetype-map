@@ -592,13 +592,12 @@ document.getElementById("shareLINE").href =
 document.getElementById("shareFB").href =
   `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 
-// URLコピー
-document.getElementById("copyURL").onclick = () => {
-  navigator.clipboard.writeText(location.href);
-  alert("URLをコピーしました！");
-};
+  // URLコピー
+  document.getElementById("copyURL").onclick = () => {
+    navigator.clipboard.writeText(location.href);
+    alert("URLをコピーしました！");
+  };
 
-
-
+  // ▼ 結果ボックス表示
   resultBox.style.display = "block";
 };
