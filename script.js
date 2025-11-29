@@ -518,10 +518,8 @@ resultContent.innerHTML = `
   <h3>${archetypeInfo[mainTypes[0]].subtitle}</h3>
   <p>${archetypeInfo[mainTypes[0]].description}</p>
 
-  <h4>スコア詳細</h4>
-  <pre>${JSON.stringify(scores, null, 2)}</pre>
 `;
- /* ▼ スコア詳細（正式名称 + 整数化 + 簡易棒グラフ） ▼ */
+/* ▼ スコア詳細（正式名称 + 整数化 + 簡易棒グラフ） ▼ */
 
 // 型 → 名称のマップ
 const typeNames = {
@@ -579,6 +577,7 @@ scoreHTML += `</div>`;
 
 // ▼ resultContent の後ろに追加
 resultContent.innerHTML += scoreHTML;
+
 
 // ② SNS シェア用リンク生成
 const url = encodeURIComponent(location.href);
