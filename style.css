@@ -89,3 +89,75 @@ h2, h3 {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   display: none;
 }
+/* ================================
+   SNS シェアボタン
+================================ */
+
+.share-buttons {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.share-buttons p {
+  margin: 0;
+  font-size: 16px;
+  color: #444;
+  font-weight: 600;
+}
+
+/* ボタン共通 */
+.share-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.25s;
+  color: white;
+}
+
+/* Twitter */
+.share-btn.twitter {
+  background-color: #1d9bf0;
+}
+.share-btn.twitter:hover {
+  background-color: #1477b3;
+}
+
+/* LINE */
+.share-btn.line {
+  background-color: #06c755;
+}
+.share-btn.line:hover {
+  background-color: #049c43;
+}
+
+/* Facebook */
+.share-btn.fb {
+  background-color: #1877f2;
+}
+.share-btn.fb:hover {
+  background-color: #125cbc;
+}
+
+/* コピー用ボタン */
+#copyURL {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+#copyURL:hover {
+  background-color: #333;
+}
