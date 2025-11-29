@@ -1,13 +1,16 @@
+/* -----------------------------------------------------
+   伝え方アーキタイプ診断 ｜ WATER VOICE
+   script.js（32問・完全版）
+----------------------------------------------------- */
+
 /* ----------------------------
-   質問データ（32問 ＋ 重み付け）
-   1〜8 ＝ 表層（weight 2.0）
-   9〜24＝ 性質（weight 1.0）
-   25〜32＝ 本質（weight 1.3）
+   質問データ（32問）
+   Q1〜Q8   : 表層スタイル（weight: 2.0）
+   Q9〜Q24  : 性質・性格傾向（weight: 1.0）
+   Q25〜Q32 : 本質・源泉・深層判定（weight: 1.3）
 ---------------------------- */
-
 const questions = [
-
-  /* ========== Q1〜Q8：表層（2.0）========== */
+  // ===== Q1〜Q8 表層スタイル：weight 2.0 =====
   {
     weight: 2.0,
     text: "あなたが人に何かを説明するとき、一番しっくりくる伝え方は？",
@@ -30,17 +33,6 @@ const questions = [
       { text: "世界観や哲学を語る抽象寄りの投稿", type: "A" },
       { text: "勢い・熱量で刺す投稿", type: "En" },
       { text: "ノウハウ・HOW TO系", type: "O" }
-    ]
-  },
-  {
-    weight: 2.0,
-    text: "あなたが人に注意されたとき、どんな受け取り方をしやすい？",
-    options: [
-      { text: "感情が大きく動く", type: "E" },
-      { text: "指摘の構造を理解しようとする", type: "S" },
-      { text: "なぜそうなるのか意味を考える", type: "A" },
-      { text: "勢いのある言い方だと委縮する", type: "E" },
-      { text: "言われた瞬間に反発したくなる", type: "En" }
     ]
   },
   {
@@ -81,18 +73,6 @@ const questions = [
   },
   {
     weight: 2.0,
-    text: "会話の中で、あなたが無意識に重視しているのは？",
-    options: [
-      { text: "自分の経験に照らして話す", type: "N" },
-      { text: "相手の気持ちの流れ", type: "E" },
-      { text: "話の構造と順序", type: "S" },
-      { text: "背景にある意味や意図", type: "A" },
-      { text: "空気感やテンション", type: "En" },
-      { text: "現実的にどうするか", type: "O" }
-    ]
-  },
-  {
-    weight: 2.0,
     text: "あなたが“話していて一番気持ちいい瞬間”は？",
     options: [
       { text: "相手が感情的に共感してくれた瞬間", type: "E" },
@@ -103,28 +83,64 @@ const questions = [
       { text: "具体的アクションに落とし込めた瞬間", type: "O" }
     ]
   },
+  {
+    weight: 2.0,
+    text: "あなたが“相談相手として頼られる”とき、多いパターンは？",
+    options: [
+      { text: "気持ちを受け止めてほしいと言われる", type: "E" },
+      { text: "似た体験談を聞かせてと言われる", type: "N" },
+      { text: "整理してほしい・言語化してほしいと言われる", type: "S" },
+      { text: "本質的な視点がほしいと言われる", type: "A" },
+      { text: "背中を押してほしいと言われる", type: "En" },
+      { text: "具体的なやり方を教えてと言われる", type: "O" }
+    ]
+  },
+  {
+    weight: 2.0,
+    text: "自分の発信全体の“雰囲気”に一番近いのは？",
+    options: [
+      { text: "あたたかくてエモーショナル", type: "E" },
+      { text: "ストーリー性が強い", type: "N" },
+      { text: "整理されていて読みやすい", type: "S" },
+      { text: "哲学的・本質的で深い", type: "A" },
+      { text: "勢い・熱量・ノリがある", type: "En" },
+      { text: "実務的・実用的で役に立つ", type: "O" }
+    ]
+  },
 
-  /* ========== Q9〜Q24：性質（1.0）========== */
+  // ===== Q9〜Q24 性質・性格傾向：weight 1.0 =====
   {
     weight: 1.0,
-    text: "あなたが“誤解された”と感じるとき、もっとも原因になりやすいのは？",
+    text: "会話の中で、あなたが無意識に重視しているのは？",
+    options: [
+      { text: "自分や相手の感情", type: "E" },
+      { text: "お互いの経験・ストーリー", type: "N" },
+      { text: "話の構造と順序", type: "S" },
+      { text: "背景にある意味や意図", type: "A" },
+      { text: "空気感やテンション", type: "En" },
+      { text: "現実的にどうするか", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "あなたが“誤解された”と感じるとき、原因になりやすいのは？",
     options: [
       { text: "説明より感情を優先しすぎる", type: "E" },
       { text: "体験談が長くなりすぎる", type: "N" },
       { text: "結論を急ぎすぎて丁寧さが欠ける", type: "S" },
       { text: "抽象度が高くイメージが伝わらない", type: "A" },
-      { text: "勢いで話しすぎて丁寧さが欠ける", type: "En" },
+      { text: "勢いで話しすぎて相手がついてこない", type: "En" },
       { text: "具体例や根拠が弱く納得されない", type: "O" }
     ]
   },
   {
     weight: 1.0,
-    text: "コミュニケーションで“より大切にしたい”と思うものは？",
+    text: "コミュニケーションで“もっと大切にしたい”と思うものは？",
     options: [
       { text: "相手の気持ちに寄り添うこと", type: "E" },
       { text: "自分の言葉で本音を語ること", type: "N" },
       { text: "分かりやすく整理して伝えること", type: "S" },
-      { text: "価値観や世界観を共有すること", type: "A" },
+      { text: "価値観や意味を共有すること", type: "A" },
       { text: "エネルギーや勢いを交換すること", type: "En" },
       { text: "実際に行動に移せる具体性", type: "O" }
     ]
@@ -215,6 +231,92 @@ const questions = [
   },
   {
     weight: 1.0,
+    text: "あなたが文章を書くとき、一番意識しているのは？",
+    options: [
+      { text: "感情の温度が伝わること", type: "E" },
+      { text: "物語として読めること", type: "N" },
+      { text: "構造が分かりやすいこと", type: "S" },
+      { text: "本質的なメッセージがあること", type: "A" },
+      { text: "勢い・リズム感があること", type: "En" },
+      { text: "読んだ人が動けること", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "人から“すごいね”と褒められるとしたら？",
+    options: [
+      { text: "気持ちが伝わる表現力", type: "E" },
+      { text: "物語の作り方", type: "N" },
+      { text: "整理・構造化能力", type: "S" },
+      { text: "本質を突く洞察", type: "A" },
+      { text: "勢いで巻き込む力", type: "En" },
+      { text: "行動を作る提案力", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "自分の話し方を一言で言うと？",
+    options: [
+      { text: "エモーショナル", type: "E" },
+      { text: "ストーリー型", type: "N" },
+      { text: "ロジカル", type: "S" },
+      { text: "アーキタイプ型（本質語り）", type: "A" },
+      { text: "エネルギー型", type: "En" },
+      { text: "オペレーション型", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "自分の発信で一番“刺さる”と言われるのは？",
+    options: [
+      { text: "気持ち・感情部分", type: "E" },
+      { text: "体験のストーリー", type: "N" },
+      { text: "構造のわかりやすさ", type: "S" },
+      { text: "本質の深さ", type: "A" },
+      { text: "テンション・勢い", type: "En" },
+      { text: "具体的な行動提案", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "自分がつい直したくなる文章のポイントは？",
+    options: [
+      { text: "気持ちが伝わっているか", type: "E" },
+      { text: "経験が描かれているか", type: "N" },
+      { text: "論理の流れ", type: "S" },
+      { text: "意味の深さ", type: "A" },
+      { text: "勢いの強さ", type: "En" },
+      { text: "行動可能性", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "相手の話を聞くとき、どこが一番気になる？",
+    options: [
+      { text: "そのときの感情・心の動き", type: "E" },
+      { text: "どんな経験をしたのか", type: "N" },
+      { text: "話の筋が通っているか", type: "S" },
+      { text: "そこにどんな意味があるか", type: "A" },
+      { text: "テンションや勢い", type: "En" },
+      { text: "現実的に何ができるか", type: "O" }
+    ]
+  },
+  {
+    weight: 1.0,
+    text: "あなたが“この人とは価値観が違うな”と感じるのは？",
+    options: [
+      { text: "気持ちを汲んでくれない人", type: "E" },
+      { text: "物語より結果だけ求める人", type: "N" },
+      { text: "論理より感情を優先する人", type: "S" },
+      { text: "表面的で本質に触れない人", type: "A" },
+      { text: "落ち着きすぎて勢いがない人", type: "En" },
+      { text: "抽象論ばかりで具体性がない人", type: "O" }
+    ]
+  },
+
+  // ===== Q25〜Q32 本質・源泉・深層：weight 1.3 =====
+  {
+    weight: 1.3,
     text: "あなたが“話が噛み合ってきた”と感じる瞬間は？",
     options: [
       { text: "気持ちの温度が一致したとき", type: "E" },
@@ -225,8 +327,6 @@ const questions = [
       { text: "次の行動が同じ方向を向いたとき", type: "O" }
     ]
   },
-
-  /* ========== Q25〜Q32：本質（1.3）========== */
   {
     weight: 1.3,
     text: "あなたが人にアドバイスするときの“最優先ポイント”は？",
@@ -265,41 +365,76 @@ const questions = [
   },
   {
     weight: 1.3,
-    text: "あなたが“この人とは価値観が違うな”と感じるのは？",
+    text: "人生全体で“これが自分らしい伝え方だな”と感じる軸は？",
     options: [
-      { text: "気持ちを汲んでくれない人", type: "E" },
-      { text: "物語より結果だけ求める人", type: "N" },
-      { text: "論理より感情を優先する人", type: "S" },
-      { text: "表面的で本質に触れない人", type: "A" },
-      { text: "落ち着きすぎて勢いがない人", type: "En" },
-      { text: "抽象論ばかりで具体性がない人", type: "O" }
+      { text: "心の動きを分かち合うこと", type: "E" },
+      { text: "物語から真実を伝えること", type: "N" },
+      { text: "構造を示して道筋を照らすこと", type: "S" },
+      { text: "本質を掴んで一言で射抜くこと", type: "A" },
+      { text: "エネルギーで周りを動かすこと", type: "En" },
+      { text: "現実レベルの変化を起こすこと", type: "O" }
+    ]
+  },
+  {
+    weight: 1.3,
+    text: "今後さらに磨きたい“自分の伝え方の軸”は？",
+    options: [
+      { text: "もっと感情に正直な表現", type: "E" },
+      { text: "もっと物語としての深さ", type: "N" },
+      { text: "もっと構造化された説明力", type: "S" },
+      { text: "もっと本質を射抜く一言", type: "A" },
+      { text: "もっとエネルギッシュな発信", type: "En" },
+      { text: "もっと行動につながる提案力", type: "O" }
+    ]
+  },
+  {
+    weight: 1.3,
+    text: "“これが自分のギフトだな”と感じるものに近いのは？",
+    options: [
+      { text: "人の気持ちに深く共鳴する力", type: "E" },
+      { text: "経験を物語として紡ぎなおす力", type: "N" },
+      { text: "複雑なものを整理して伝える力", type: "S" },
+      { text: "本質やパターンを見抜く力", type: "A" },
+      { text: "場のエネルギーを動かす力", type: "En" },
+      { text: "現実的なアクションに落とす力", type: "O" }
+    ]
+  },
+  {
+    weight: 1.3,
+    text: "老後の自分を想像したとき、“どんな伝え方の人でありたい？”",
+    options: [
+      { text: "そばにいるだけで心が楽になる人", type: "E" },
+      { text: "物語を語り継ぐストーリーテラー", type: "N" },
+      { text: "わかりやすく道を示すナビゲーター", type: "S" },
+      { text: "本質を静かに語る哲学者タイプ", type: "A" },
+      { text: "場を一気に明るくするムードメーカー", type: "En" },
+      { text: "人生の作戦会議を一緒にしてくれる参謀", type: "O" }
     ]
   }
 ];
 
-
 /* ----------------------------
-   質問を画面に表示
+   質問レンダリング
 ---------------------------- */
 function renderQuestions() {
-  const container = document.getElementById('questions');
-  container.innerHTML = '';
+  const container = document.getElementById("questions");
+  container.innerHTML = "";
 
-  questions.forEach((q, qi) => {
-    const block = document.createElement('div');
-    block.className = 'question-block';
+  questions.forEach((q, index) => {
+    const block = document.createElement("div");
+    block.className = "question-block";
 
-    const title = document.createElement('h3');
-    title.textContent = `Q${qi + 1}. ${q.text}`;
+    const title = document.createElement("h3");
+    title.textContent = `Q${index + 1}. ${q.text}`;
     block.appendChild(title);
 
     q.options.forEach(opt => {
-      const label = document.createElement('label');
-      label.className = 'option';
+      const label = document.createElement("label");
+      label.className = "option";
 
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = `q_${qi}`;
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = `q_${index}`;
       input.value = opt.type;
 
       label.appendChild(input);
@@ -313,31 +448,30 @@ function renderQuestions() {
 
 renderQuestions();
 
-
 /* ----------------------------
-   診断結果ロジック
+   診断ロジック
 ---------------------------- */
-document.getElementById('submitBtn').onclick = () => {
-
+document.getElementById("submitBtn").onclick = () => {
   const scores = { N: 0, E: 0, S: 0, A: 0, En: 0, O: 0 };
 
-  questions.forEach((q, qi) => {
-    const selected = document.querySelector(`input[name='q_${qi}']:checked`);
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q_${i}"]:checked`);
     if (selected) {
       scores[selected.value] += q.weight;
     }
   });
 
-  // 最大タイプ判定
-  const maxScore = Math.max(...Object.values(scores));
-  const mainType = Object.keys(scores).find(key => scores[key] === maxScore);
+  // 最大スコアのタイプ
+  const maxVal = Math.max(...Object.values(scores));
+  const mainTypes = Object.keys(scores).filter(key => scores[key] === maxVal);
 
-  // 表示
-  const resultBox = document.getElementById('resultBox');
-  const resultContent = document.getElementById('resultContent');
+  const resultBox = document.getElementById("resultBox");
+  const resultContent = document.getElementById("resultContent");
 
   resultContent.innerHTML = `
-    <h3>あなたの主要タイプ：${mainType}</h3>
+    <h3>あなたの主要タイプ：<strong>${mainTypes.join(" & ")}</strong></h3>
+    <p>あなたの伝え方の源泉は、上記タイプの性質がもっとも強く現れています。</p>
+    <h4>スコア詳細</h4>
     <pre>${JSON.stringify(scores, null, 2)}</pre>
   `;
 
